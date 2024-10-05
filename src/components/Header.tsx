@@ -1,12 +1,27 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.svg" alt="Company Logo" width={40} height={40} />
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="rounded-full overflow-hidden"
+          >
+            <Image
+              src="/logo-2-no-bg.png"
+              alt="Company Logo"
+              width={70}
+              height={70}
+              className="rounded-full"
+            />
+          </motion.div>
         </Link>
         <nav>
           <ul className="flex space-x-6">
