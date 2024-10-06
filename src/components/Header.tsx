@@ -128,10 +128,10 @@ export default function Header() {
             GET IN TOUCH
           </Link>
           <button  
-            type='button'
+            type="button"
             className="md:hidden text-white focus:outline-none z-50"
             onClick={toggleMenu}
-            aria-expanded={isMenuOpen.toString()}
+            aria-expanded={isMenuOpen}
             aria-label="Toggle menu"
           >
             <span className="sr-only">Menu</span>
