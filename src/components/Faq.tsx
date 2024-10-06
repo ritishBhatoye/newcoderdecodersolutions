@@ -22,15 +22,15 @@ const faqData: FaqItem[] = [
     questions: [
       {
         question: "What's your approach to creating responsive and mobile-friendly websites?",
-        answer: "We prioritize a mobile-first approach in our web development process. This means we design and develop for mobile devices first, then progressively enhance the experience for larger screens. We use responsive design techniques, flexible grid layouts, and CSS media queries to ensure our websites look great and function well on all devices, from smartphones to large desktop monitors. We also extensively test on various devices and browsers to guarantee consistency and optimal performance across platforms."
+        answer: "Our mobile-first approach ensures optimal user experience across all devices:\n\n• Design for mobile devices first, then enhance for larger screens\n• Utilize responsive design techniques and flexible grid layouts\n• Implement CSS media queries for device-specific styling\n• Conduct extensive testing on various devices and browsers\n• Ensure consistent performance and functionality across platforms"
       },
       {
         question: "How do you handle website performance optimization?",
-        answer: "Website performance is crucial for user experience and SEO. Our optimization strategy includes several key areas: 1) Code optimization: We write clean, efficient code and use modern build tools to minimize and bundle assets. 2) Image optimization: We use next-gen formats like WebP and implement lazy loading for images. 3) Caching: We implement both browser and server-side caching strategies. 4) Content Delivery Networks (CDNs): We utilize CDNs to serve static assets from locations closer to the user. 5) Database optimization: We optimize database queries and indexes for faster data retrieval. 6) Regular performance audits: We use tools like Lighthouse and WebPageTest to continuously monitor and improve performance metrics."
+        answer: "We employ a comprehensive strategy to optimize website performance:\n\n• Code optimization: Write clean, efficient code and use modern build tools\n• Image optimization: Utilize next-gen formats (e.g., WebP) and implement lazy loading\n• Caching: Implement both browser and server-side caching strategies\n• Content Delivery Networks (CDNs): Serve static assets from locations closer to users\n• Database optimization: Optimize queries and indexes for faster data retrieval\n• Regular audits: Use tools like Lighthouse and WebPageTest for continuous improvement"
       },
       {
         question: "Can you integrate third-party services and APIs into web applications?",
-        answer: "Absolutely! We have extensive experience integrating a wide range of third-party services and APIs into web applications. This includes payment gateways (like Stripe or PayPal), social media APIs, mapping services (like Google Maps), analytics tools, CRM systems, and more. We follow best practices for API integration, including secure authentication, proper error handling, and rate limiting where necessary. We also create abstraction layers in our code to make future API changes or replacements easier to manage. If a custom API is needed, we can develop it to ensure seamless integration with your specific requirements."
+        answer: "Absolutely! We have extensive experience integrating various third-party services and APIs:\n\n• Payment gateways (e.g., Stripe, PayPal)\n• Social media APIs\n• Mapping services (e.g., Google Maps)\n• Analytics tools\n• CRM systems\n\nOur integration process includes:\n\n• Following best practices for secure authentication\n• Implementing proper error handling\n• Applying rate limiting where necessary\n• Creating abstraction layers for easier future updates\n• Developing custom APIs when needed for seamless integration"
       }
     ]
   },
@@ -39,19 +39,43 @@ const faqData: FaqItem[] = [
     questions: [
       {
         question: "What e-commerce platforms do you work with, and how do you choose the right one for a project?",
-        answer: "We work with a variety of e-commerce platforms, including Shopify, WooCommerce, Magento, and custom solutions built with frameworks like Next.js or Laravel. The choice of platform depends on several factors: 1) Business size and scalability needs, 2) Required features and customization level, 3) Budget constraints, 4) Integration requirements with existing systems, 5) Expected traffic and product volume. We conduct a thorough analysis of these factors with our clients to recommend the most suitable platform. For smaller businesses or those just starting, we might recommend Shopify for its ease of use. For larger enterprises needing extensive customization, we might suggest a custom solution or Magento. Our goal is to provide a solution that not only meets current needs but can also scale with the business."
+        answer: "We work with various e-commerce platforms and select the best fit based on specific project needs:\n\nPlatforms we work with:\n• Shopify\n• WooCommerce\n• Magento\n• Custom solutions (e.g., Next.js, Laravel)\n\nFactors considered when choosing a platform:\n1. Business size and scalability needs\n2. Required features and customization level\n3. Budget constraints\n4. Integration requirements with existing systems\n5. Expected traffic and product volume\n\nOur approach:\n• Conduct thorough analysis with clients\n• Recommend suitable platforms (e.g., Shopify for smaller businesses, custom solutions for larger enterprises)\n• Focus on solutions that meet current needs and can scale with the business"
       },
       {
         question: "How do you handle security for e-commerce websites, especially regarding payment processing?",
-        answer: "Security is paramount in e-commerce, especially when handling sensitive customer and payment data. Our approach includes: 1) SSL/TLS encryption: We ensure all data transmitted between the user and the server is encrypted. 2) PCI DSS compliance: For sites handling credit card data, we ensure compliance with Payment Card Industry Data Security Standards. 3) Secure payment gateways: We integrate trusted, PCI-compliant payment gateways that handle the actual processing of sensitive financial data. 4) Regular security audits: We conduct periodic security assessments to identify and address potential vulnerabilities. 5) Secure authentication: We implement strong password policies and offer two-factor authentication where possible. 6) Data minimization: We only collect and store essential user data. 7) Regular updates: We keep all software, plugins, and dependencies up-to-date to patch known security vulnerabilities. 8) DDoS protection: We implement measures to protect against Distributed Denial of Service attacks."
+        answer: "We prioritize security in e-commerce, especially for sensitive data handling:\n\n• SSL/TLS encryption for all data transmissions\n• PCI DSS compliance for credit card data handling\n• Integration of secure, PCI-compliant payment gateways\n• Regular security audits and vulnerability assessments\n• Implementation of strong authentication (including two-factor authentication)\n• Data minimization practices\n• Regular software and dependency updates\n• DDoS protection measures\n\nOur comprehensive approach ensures robust security for both customers and businesses."
       },
       {
         question: "Can you implement custom features like product configurators or subscription-based models in e-commerce sites?",
-        answer: "Yes, we specialize in implementing advanced, custom features for e-commerce sites. Product configurators, which allow customers to customize products before purchase, can be developed using JavaScript frameworks like React or Vue.js, integrated with the backend to manage complex pricing and inventory. For subscription-based models, we can implement recurring billing systems, often integrating with services like Stripe or Chargebee for payment processing and subscription management. We can also develop features like tiered pricing, trial periods, and upgrade/downgrade capabilities. Other custom features we've implemented include personalized product recommendations, advanced search functionality with filters, and inventory management systems. Our approach is always to understand the specific business needs and customer expectations to deliver a solution that enhances the shopping experience and drives conversions."
+        answer: "Yes, we specialize in implementing advanced, custom e-commerce features:\n\nProduct Configurators:\n• Develop using JavaScript frameworks (e.g., React, Vue.js)\n• Integrate with backend for complex pricing and inventory management\n\nSubscription-based Models:\n• Implement recurring billing systems\n• Integrate with services like Stripe or Chargebee\n• Develop features such as tiered pricing, trial periods, and upgrade/downgrade options\n\nOther Custom Features:\n• Personalized product recommendations\n• Advanced search functionality with filters\n• Inventory management systems\n\nOur approach focuses on understanding specific business needs and customer expectations to enhance the shopping experience and drive conversions."
+      }
+    ]
+  },
+  {
+    category: "Mobile Application Development",
+    questions: [
+      {
+        question: "What mobile app development frameworks do you specialize in?",
+        answer: "We specialize in two leading cross-platform mobile development frameworks:\n\n• React Native: Ideal for building native apps using JavaScript and React\n• Flutter: Google's UI toolkit for crafting natively compiled applications\n\nBoth frameworks allow us to develop high-performance, visually appealing apps for iOS and Android from a single codebase, reducing development time and costs."
+      },
+      {
+        question: "How do you ensure a native look and feel in cross-platform apps?",
+        answer: "We prioritize creating a native user experience in our cross-platform apps:\n\n• Utilize platform-specific UI components and design patterns\n• Implement custom native modules when necessary\n• Adhere to platform-specific design guidelines (Material Design for Android, Human Interface Guidelines for iOS)\n• Optimize animations and transitions for smooth performance\n• Conduct extensive testing on various devices to ensure consistency\n\nOur approach combines the efficiency of cross-platform development with the quality of native apps."
+      },
+      {
+        question: "Can you integrate device-specific features like biometrics or push notifications?",
+        answer: "Absolutely! We have extensive experience integrating device-specific features:\n\n• Biometric authentication (fingerprint, face recognition)\n• Push notifications\n• Camera and photo library access\n• Geolocation services\n• Bluetooth and NFC capabilities\n• Accelerometer and gyroscope integration\n\nOur process involves:\n• Using native modules or plugins for seamless integration\n• Implementing fallback mechanisms for devices lacking specific features\n• Ensuring proper permissions handling and user privacy"
+      },
+      {
+        question: "How do you handle app performance optimization for mobile devices?",
+        answer: "We employ various strategies to optimize mobile app performance:\n\n• Efficient state management (e.g., Redux for React Native, BLoC for Flutter)\n• Lazy loading and code splitting to reduce initial load times\n• Optimizing images and assets for mobile devices\n• Minimizing unnecessary re-renders and computations\n• Implementing proper caching strategies\n• Using performance profiling tools to identify and resolve bottlenecks\n• Optimizing animations for smooth 60fps performance\n• Conducting regular performance audits throughout development"
+      },
+      {
+        question: "What's your approach to testing and quality assurance for mobile apps?",
+        answer: "Our comprehensive testing approach ensures high-quality mobile applications:\n\n• Unit testing: Verify individual components and functions\n• Integration testing: Ensure different parts of the app work together\n• UI testing: Automated tests for user interface elements\n• Performance testing: Analyze app behavior under various conditions\n• Device testing: Test on a wide range of physical devices and emulators\n• Beta testing: Gather real-world user feedback before launch\n• Continuous Integration/Continuous Deployment (CI/CD): Automate testing and deployment processes\n\nWe use tools like Jest, Detox, and Firebase Test Lab to maintain rigorous quality standards throughout development."
       }
     ]
   }
-  // ... Add more categories and questions as needed
 ]
 
 const Faq: React.FC = () => {
@@ -121,7 +145,7 @@ const Faq: React.FC = () => {
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                         className="px-6 pb-4"
                       >
-                        <p className="text-gray-600">{q.answer}</p>
+                        <pre className="text-gray-600 whitespace-pre-wrap">{q.answer}</pre>
                       </motion.div>
                     )}
                   </AnimatePresence>
