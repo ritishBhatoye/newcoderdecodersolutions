@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSpring, animated } from "react-spring";
 
 const slides = [
   {
@@ -24,21 +23,21 @@ export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    if (slides.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  const springProps = useSpring({
-    from: { opacity: 0, transform: "translateY(50px)" },
-    to: { opacity: 1, transform: "translateY(0px)" },
-    config: { tension: 300, friction: 10 },
-  });
+  if (slides.length === 0) {
+    return null; // or a fallback UI
+  }
 
-  return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 overflow-hidden">
+  return (  
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white via-indigo-300 via-purple-500 to-pink-500 overflow-hidden relative">
       <div className="text-center max-w-4xl mx-auto px-4 relative">
+        <h1 className="sr-only">New Coder Decoder Solutions</h1>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -47,54 +46,26 @@ export default function Hero() {
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.5 }}
             className="mb-8"
+            aria-live="polite"
           >
-            <h1 className="text-5xl font-bold mb-4 text-white">
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-black font-montserrat tracking-wide">
               {slides[currentSlide].title}
-            </h1>
-            <p className="text-xl text-white mb-6">
+            </h2>
+            <p className="text-lg md:text-xl text-black mb-6 font-roboto font-medium">
               {slides[currentSlide].subtitle}
             </p>
           </motion.div>
         </AnimatePresence>
 
-        <animated.div style={springProps}>
-          <Link href="#contact" className="bg-white text-indigo-600 px-8 py-4 rounded-full font-bold hover:bg-indigo-100 transition-colors inline-block">
-            LET'S CREATE SOMETHING AMAZING
-          </Link>
-        </animated.div>
-
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-12"
+          className="mt-8"
         >
-          <p className="text-white mb-4">Trusted By Industry Leaders</p>
-          <div className="flex justify-center space-x-8">
-            {/* Add your client logos here */}
-            {/* Example: <Image src="/client-logo.svg" alt="Client" width={100} height={50} /> */}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
+          <Link href="#contact" className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold font-montserrat hover:bg-gray-800 transition-colors inline-block">
+            LET'S CREATE SOMETHING AMAZING
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -1,103 +1,183 @@
 "use client";
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import React, { FC, memo, useRef } from 'react';
 
-interface ProcessStep {
+// Define the interface for a process step
+interface ProcessStepData {
+  id: string;
   number: number;
   title: string;
   description: string;
 }
 
-const processSteps: ProcessStep[] = [
+// Updated processSteps with unique IDs and corrected descriptions
+const processSteps: ProcessStepData[] = [
   {
+    id: 'step-1',
     number: 1,
-    title: "Requirement Gathering",
-    description: "Our Business Analysts gets on a call with you to take requirement gatherings about your requirements and pass it to the project/product manager."
+    title: 'Requirement Gathering',
+    description:
+      'We start by having a detailed conversation with you to understand your needs and goals, ensuring we capture your vision accurately.',
   },
   {
+    id: 'step-2',
     number: 2,
-    title: "Project/Product Management",
-    description: "Efficient resource allocation and agile methodologies underpin our project management, ensuring on-time delivery and seamless execution of your website development."
+    title: 'Project/Product Management',
+    description:
+      'With our combined expertise, we organize resources and implement agile methodologies to keep your website development on schedule and within scope.',
   },
   {
+    id: 'step-3',
     number: 3,
-    title: "UX / UI Design",
-    description: "UX/UI Designers employ wireframes and prototypes, craft an intuitive, visually appealing interface, harmonizing user experience and visual design principles for your website."
+    title: 'UX / UI Design',
+    description:
+      'Our designers create intuitive wireframes and visually appealing prototypes, focusing on both user experience and aesthetic design to deliver a website that’s easy to navigate and pleasing to the eye.',
   },
   {
+    id: 'step-4',
     number: 4,
-    title: "Development",
-    description: "Our skilled developers employ languages like HTML, CSS, and JavaScript to code and build a responsive, scalable website, rigorously tested for cross-browser compatibility."
+    title: 'Development',
+    description:
+      'We leverage modern technologies like Next.js, Tailwind CSS, and ReactJS to build a responsive and scalable website, ensuring it functions seamlessly across all browsers and devices.',
   },
   {
+    id: 'step-5',
     number: 5,
-    title: "Launch",
-    description: "It's showtime! We get your website ready for the world to see. It's like opening the doors to your brand new store—making sure everything is perfect before inviting everyone in."
+    title: 'Launch',
+    description:
+      'Together, we prepare your Product for launch by performing final checks and optimizations, making sure everything is polished and ready to provide visitors with an excellent first impression.',
   },
   {
+    id: 'step-6',
     number: 6,
-    title: "Marketing Strategy",
-    description: "Utilizing SEO, content strategies, and analytics, we promote your website, optimizing its visibility and engagement for your target audience."
-  }
+    title: 'Marketing Strategy',
+    description:
+      'We develop and implement effective SEO and content strategies, using data analytics to boost your website’s visibility and engagement with your target audience.',
+  },
 ];
 
-const ProcessStep: React.FC<{ step: ProcessStep; index: number }> = ({ step, index }) => {
+// Animation variants for the container and steps
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const stepVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
+
+// Renamed component to avoid naming conflict and memoized for performance
+const ProcessStepItem: FC<{ step: ProcessStepData; isEven: boolean }> = memo(({ step, isEven }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0.5,
   });
 
   return (
-    <motion.div
+    <motion.li
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.2 }}
-      className="flex flex-col md:flex-row items-start mb-12 relative"
+      variants={stepVariants}
+      initial="hidden"
+      animate={inView ? 'visible' : 'hidden'}
+      transition={{ duration: 0.5 }}
+      className={`flex items-center mb-12 ${isEven ? 'flex-row-reverse' : ''}`}
+      aria-labelledby={`step-title-${step.id}`}
     >
-      <motion.div
-        className="w-16 h-16 bg-blue-900 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-4 md:mb-0 md:mr-6"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+      <div className={`w-1/2 ${isEven ? 'pl-8' : 'pr-8'}`}>
+        <motion.div
+          className="bg-white p-6 rounded-lg shadow-md"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
+        >
+          <h3 id={`step-title-${step.id}`} className="text-xl font-semibold text-black mb-2">
+            Step {step.number}
+          </h3>
+          <h4 className="text-lg font-medium text-blue-600 mb-2">{step.title}</h4>
+          <p className="text-gray-700">{step.description}</p>
+        </motion.div>
+      </div>
+      <motion.div 
+        className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10`}
+        initial={{ backgroundColor: "#D1D5DB" }} // Start with gray
+        animate={{ backgroundColor: inView ? "#000000" : "#D1D5DB" }} // Animate to black when in view
+        transition={{ duration: 0.5 }}
       >
         {step.number}
       </motion.div>
-      <div className="flex-1">
-        <h3 className="text-xl font-semibold text-green-600 mb-2">{step.title}</h3>
-        <p className="text-gray-700">{step.description}</p>
-      </div>
-      {index < processSteps.length - 1 && (
-        <motion.div
-          className="absolute left-8 top-16 w-0.5 bg-gray-300 hidden md:block"
-          style={{ height: 'calc(100% + 3rem)' }}
-          initial={{ scaleY: 0 }}
-          animate={inView ? { scaleY: 1 } : {}}
-          transition={{ duration: 0.5, delay: index * 0.2 }}
-        />
-      )}
-    </motion.div>
+      <div className="w-1/2"></div>
+    </motion.li>
   );
-};
+});
+
 export default function Process() {
+  const processRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: processRef,
+    offset: ["start end", "end start"]
+  });
+
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
-    <section id="process" className="py-20 bg-gray-50">
+    <section id="process" className="py-20 bg-gray-50" ref={processRef}>
       <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-4xl font-bold text-center mb-12"
+          className="text-4xl font-bold text-center mb-12 text-black"
         >
-          Our Process
+          How It Works
         </motion.h2>
-        <div className="max-w-4xl mx-auto">
-          {processSteps.map((step, index) => (
-            <ProcessStep key={step.number} step={step} index={index} />
-          ))}
+        <div className="relative">
+          {/* Combined grey and black line */}
+          <div 
+            className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-300"
+            style={{ 
+              top: 0,
+              bottom: 0,
+              zIndex: 0
+            }}
+          >
+            <motion.div 
+              className="absolute top-0 left-0 w-full bg-black origin-top"
+              style={{ scaleY }}
+            />
+          </div>
+          <motion.ol
+            className="relative z-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            aria-label="Process Steps"
+          >
+            {processSteps.map((step, index) => (
+              <ProcessStepItem key={step.id} step={step} isEven={index % 2 !== 0} />
+            ))}
+          </motion.ol>
+        </div>
+        <div className="text-center mt-12">
+          <motion.a
+            href="#"
+            className="inline-block bg-black text-white px-6 py-3 rounded-full font-semibold text-lg"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Yes, Grow My Brand!
+          </motion.a>
         </div>
       </div>
     </section>
   );
 }
-

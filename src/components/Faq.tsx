@@ -1,13 +1,19 @@
 'use client'
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown, ChevronRight } from 'lucide-react'
+
+// Utility function for conditional class names
+function cn(...classes: (string | boolean | undefined)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 
 interface FaqItem {
-  category: string;
+  category: string
   questions: {
-    question: string;
-    answer: string;
-  }[];
+    question: string
+    answer: string
+  }[]
 }
 
 const faqData: FaqItem[] = [
@@ -15,169 +21,97 @@ const faqData: FaqItem[] = [
     category: "Web Development",
     questions: [
       {
-        question: "What technologies do you use for web development?",
-        answer: "We specialize in modern web technologies including React, Next.js, Node.js, Laravel, and the MERN stack (MongoDB, Express, React, Node.js). Our tech stack is chosen based on project requirements to ensure optimal performance and scalability."
+        question: "What's your approach to creating responsive and mobile-friendly websites?",
+        answer: "We prioritize a mobile-first approach in our web development process. This means we design and develop for mobile devices first, then progressively enhance the experience for larger screens. We use responsive design techniques, flexible grid layouts, and CSS media queries to ensure our websites look great and function well on all devices, from smartphones to large desktop monitors. We also extensively test on various devices and browsers to guarantee consistency and optimal performance across platforms."
       },
       {
-        question: "Can you explain the benefits of using Next.js for web development?",
-        answer: "Next.js offers several advantages including server-side rendering, static site generation, and automatic code splitting. This results in faster page loads, improved SEO, and a better overall user experience. It's particularly well-suited for large-scale applications and content-heavy websites."
+        question: "How do you handle website performance optimization?",
+        answer: "Website performance is crucial for user experience and SEO. Our optimization strategy includes several key areas: 1) Code optimization: We write clean, efficient code and use modern build tools to minimize and bundle assets. 2) Image optimization: We use next-gen formats like WebP and implement lazy loading for images. 3) Caching: We implement both browser and server-side caching strategies. 4) Content Delivery Networks (CDNs): We utilize CDNs to serve static assets from locations closer to the user. 5) Database optimization: We optimize database queries and indexes for faster data retrieval. 6) Regular performance audits: We use tools like Lighthouse and WebPageTest to continuously monitor and improve performance metrics."
       },
       {
-        question: "How do you ensure the security of web applications?",
-        answer: "We implement industry-standard security practices including data encryption, secure authentication methods, regular security audits, and protection against common vulnerabilities like XSS and CSRF. We also keep all libraries and dependencies up-to-date to patch known security issues."
+        question: "Can you integrate third-party services and APIs into web applications?",
+        answer: "Absolutely! We have extensive experience integrating a wide range of third-party services and APIs into web applications. This includes payment gateways (like Stripe or PayPal), social media APIs, mapping services (like Google Maps), analytics tools, CRM systems, and more. We follow best practices for API integration, including secure authentication, proper error handling, and rate limiting where necessary. We also create abstraction layers in our code to make future API changes or replacements easier to manage. If a custom API is needed, we can develop it to ensure seamless integration with your specific requirements."
       }
     ]
   },
   {
-    category: "Laravel Development",
+    category: "E-commerce Solutions",
     questions: [
       {
-        question: "Why choose Laravel for backend development?",
-        answer: "Laravel offers a robust set of tools and an elegant syntax that makes it ideal for building complex backend systems. It provides excellent features for database management, routing, authentication, and caching, which speeds up development and ensures code quality."
+        question: "What e-commerce platforms do you work with, and how do you choose the right one for a project?",
+        answer: "We work with a variety of e-commerce platforms, including Shopify, WooCommerce, Magento, and custom solutions built with frameworks like Next.js or Laravel. The choice of platform depends on several factors: 1) Business size and scalability needs, 2) Required features and customization level, 3) Budget constraints, 4) Integration requirements with existing systems, 5) Expected traffic and product volume. We conduct a thorough analysis of these factors with our clients to recommend the most suitable platform. For smaller businesses or those just starting, we might recommend Shopify for its ease of use. For larger enterprises needing extensive customization, we might suggest a custom solution or Magento. Our goal is to provide a solution that not only meets current needs but can also scale with the business."
       },
       {
-        question: "How do you handle database migrations and seeding in Laravel projects?",
-        answer: "We use Laravel's built-in migration system to version control our database schema. This allows for easy collaboration and deployment across different environments. We also utilize seeders to populate the database with initial data, which is particularly useful for testing and development."
+        question: "How do you handle security for e-commerce websites, especially regarding payment processing?",
+        answer: "Security is paramount in e-commerce, especially when handling sensitive customer and payment data. Our approach includes: 1) SSL/TLS encryption: We ensure all data transmitted between the user and the server is encrypted. 2) PCI DSS compliance: For sites handling credit card data, we ensure compliance with Payment Card Industry Data Security Standards. 3) Secure payment gateways: We integrate trusted, PCI-compliant payment gateways that handle the actual processing of sensitive financial data. 4) Regular security audits: We conduct periodic security assessments to identify and address potential vulnerabilities. 5) Secure authentication: We implement strong password policies and offer two-factor authentication where possible. 6) Data minimization: We only collect and store essential user data. 7) Regular updates: We keep all software, plugins, and dependencies up-to-date to patch known security vulnerabilities. 8) DDoS protection: We implement measures to protect against Distributed Denial of Service attacks."
       },
       {
-        question: "Can Laravel be used with a React or Vue.js frontend?",
-        answer: "Absolutely! We often create Laravel APIs that serve as the backend for React or Vue.js frontends. This combination allows us to leverage Laravel's powerful backend features while providing a dynamic and responsive user interface."
-      }
-    ]
-  },
-  {
-    category: "MERN Stack",
-    questions: [
-      {
-        question: "What are the advantages of using the MERN stack?",
-        answer: "The MERN stack (MongoDB, Express, React, Node.js) allows for a full JavaScript ecosystem, which can streamline development and make it easier to find developers. It's highly scalable, great for real-time applications, and offers excellent performance for data-intensive applications."
-      },
-      {
-        question: "How do you handle state management in MERN stack applications?",
-        answer: "For smaller applications, we often use React's built-in Context API. For larger, more complex applications, we typically implement Redux or MobX for more robust state management. The choice depends on the specific needs of the project."
-      },
-      {
-        question: "Can you integrate other databases with a MERN stack application?",
-        answer: "While MongoDB is the traditional database for MERN stack, we can certainly integrate other databases like PostgreSQL or MySQL if the project requires it. We use ORMs like Sequelize or TypeORM to make this integration seamless."
-      }
-    ]
-  },
-  {
-    category: "Full Stack Development",
-    questions: [
-      {
-        question: "What does your full stack development process look like?",
-        answer: "Our full stack development process typically involves requirements gathering, system design, frontend and backend development in parallel, integration, testing, and deployment. We use agile methodologies to ensure regular communication and iterative development."
-      },
-      {
-        question: "How do you handle API development and integration?",
-        answer: "We design RESTful APIs using best practices for endpoint naming, status codes, and data formatting. We use tools like Swagger for API documentation. For integration, we ensure proper error handling, implement rate limiting when necessary, and use JWT for authentication."
-      },
-      {
-        question: "What strategies do you use for optimizing application performance?",
-        answer: "We employ various strategies including code splitting, lazy loading, caching mechanisms, database query optimization, and CDN usage for static assets. We also conduct regular performance audits and use tools like Lighthouse to identify and address performance bottlenecks."
+        question: "Can you implement custom features like product configurators or subscription-based models in e-commerce sites?",
+        answer: "Yes, we specialize in implementing advanced, custom features for e-commerce sites. Product configurators, which allow customers to customize products before purchase, can be developed using JavaScript frameworks like React or Vue.js, integrated with the backend to manage complex pricing and inventory. For subscription-based models, we can implement recurring billing systems, often integrating with services like Stripe or Chargebee for payment processing and subscription management. We can also develop features like tiered pricing, trial periods, and upgrade/downgrade capabilities. Other custom features we've implemented include personalized product recommendations, advanced search functionality with filters, and inventory management systems. Our approach is always to understand the specific business needs and customer expectations to deliver a solution that enhances the shopping experience and drives conversions."
       }
     ]
   }
-];
+  // ... Add more categories and questions as needed
+]
 
 const Faq: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("Web Development");
-  const [openQuestion, setOpenQuestion] = useState<string | null>(null);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        duration: 0.5,
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: { type: 'spring', stiffness: 300, damping: 24 }
-    }
-  };
+  const [activeCategory, setActiveCategory] = useState<string>(faqData[0].category)
+  const [openQuestion, setOpenQuestion] = useState<string | null>(null)
 
   return (
-    <motion.div 
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className="bg-gradient-to-br from-gray-100 to-gray-200 py-16 sm:py-24"
-    >
+    <section id="faqs" className="bg-gradient-to-br from-gray-50 to-gray-100 py-16 sm:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.h2 
-          variants={itemVariants}
-          className="text-center text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400"
-        >
+        <h2 className="text-center text-4xl sm:text-5xl font-bold mb-4 text-gray-900 font-playfair">
           Frequently Asked Questions
-        </motion.h2>
-        <motion.p 
-          variants={itemVariants}
-          className="text-center text-lg mb-12 text-gray-600"
-        >
-          Curious about our services? We've got you covered.
-        </motion.p>
+        </h2>
+        <p className="text-center text-lg mb-12 text-gray-600">
+          Detailed answers to your most pressing questions about our services and expertise.
+        </p>
         
         <div className="flex flex-col lg:flex-row gap-8">
-          <motion.div 
-            variants={itemVariants}
-            className="lg:w-1/3 bg-white p-6 rounded-xl shadow-lg"
-          >
-            {faqData.map((item, index) => (
-              <motion.div 
-                key={index}
-                whileHover={{ scale: 1.05, color: '#3B82F6' }}
-                whileTap={{ scale: 0.95 }}
-                className={`flex justify-between items-center py-4 cursor-pointer transition-colors duration-300 ${activeCategory === item.category ? 'text-blue-500' : 'text-gray-700'}`}
+          <nav className="lg:w-1/4 space-y-2">
+            {faqData.map((item) => (
+              <button
+                key={item.category}
                 onClick={() => setActiveCategory(item.category)}
+                className={cn(
+                  "w-full text-left px-4 py-2 rounded-lg transition-colors duration-200 ease-in-out",
+                  activeCategory === item.category
+                    ? "bg-black text-white"
+                    : "bg-white text-gray-700 hover:bg-gray-100"
+                )}
               >
                 <span className="font-medium">{item.category}</span>
-                <motion.span 
-                  animate={{ rotate: activeCategory === item.category ? 90 : 0 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                >
-                  →
-                </motion.span>
-              </motion.div>
+                <ChevronRight className={cn(
+                  "inline-block ml-2 transition-transform duration-200",
+                  activeCategory === item.category ? "rotate-90" : ""
+                )} />
+              </button>
             ))}
-          </motion.div>
+          </nav>
           
-          <motion.div 
-            variants={itemVariants}
-            className="lg:w-2/3 bg-white p-6 rounded-xl shadow-lg"
-          >
+          <div className="lg:w-3/4 bg-white rounded-xl shadow-lg overflow-hidden">
             <AnimatePresence mode="wait">
-              {faqData.find(item => item.category === activeCategory)?.questions.map((q, index) => (
+              {faqData.find(item => item.category === activeCategory)?.questions.map((q) => (
                 <motion.div 
                   key={q.question}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 25, delay: index * 0.1 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                  className="border-b border-gray-200 last:border-b-0"
                 >
-                  <motion.div 
-                    className="flex justify-between items-center py-4 cursor-pointer border-b border-gray-200"
+                  <button
+                    className="flex justify-between items-center w-full px-6 py-4 text-left"
                     onClick={() => setOpenQuestion(openQuestion === q.question ? null : q.question)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    aria-expanded={openQuestion === q.question}
                   >
-                    <span className="font-medium text-gray-800">{q.question}</span>
-                    <motion.span
-                      animate={{ rotate: openQuestion === q.question ? 180 : 0 }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                      className="text-blue-500"
-                    >
-                      {openQuestion === q.question ? '−' : '+'}
-                    </motion.span>
-                  </motion.div>
+                    <span className="font-medium text-gray-900">{q.question}</span>
+                    <ChevronDown className={cn(
+                      "text-black transition-transform duration-200",
+                      openQuestion === q.question ? "rotate-180" : ""
+                    )} />
+                  </button>
                   <AnimatePresence>
                     {openQuestion === q.question && (
                       <motion.div
@@ -185,20 +119,20 @@ const Faq: React.FC = () => {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                        className="py-4 text-gray-600"
+                        className="px-6 pb-4"
                       >
-                        {q.answer}
+                        <p className="text-gray-600">{q.answer}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.div>
-  );
-};
+    </section>
+  )
+}
 
-export default Faq;
+export default Faq

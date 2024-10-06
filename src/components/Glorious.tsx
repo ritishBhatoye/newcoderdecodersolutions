@@ -1,19 +1,45 @@
 'use client'
 import React, { useRef, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import { motion, useAnimation, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useSpring } from 'react-spring';
+import trophy from '../../public/award.png';
+import earth from "../../public/earth.png";
+import team from "../../public/united.png";
+import simran from "../../public/simran.jpg";
+import ritish from "../../public/ritish.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface StatItemProps {
-  icon: string;
+  icon: StaticImageData;
   number: string;
   label: string;
-  color: string;
+  color: 'gray-800' | 'blue-500' | 'indigo-600' | 'green-600';
+}
+
+interface FounderProps {
+  image: StaticImageData;
+  name: string;
+  role: string;
+}
+
+const formatNumber = (num: number, suffix: string): string => {
+  if (suffix === 'M') return (num / 1000000).toFixed(1) + 'M';
+  if (suffix === 'k') return (num / 1000).toFixed(1) + 'k';
+  return num.toString() + suffix;
+}
+
+const getBgColor = (color: StatItemProps['color']): string => {
+  const colors = {
+    'gray-800': '#1F2937',
+    'blue-500': '#3B82F6',
+    'indigo-600': '#4F46E5',
+    'green-600': '#059669'
+  };
+  return colors[color] || '#FFFFFF';
 }
 
 const StatItem: React.FC<StatItemProps> = ({ icon, number, label, color }) => {
@@ -25,14 +51,14 @@ const StatItem: React.FC<StatItemProps> = ({ icon, number, label, color }) => {
   const numberRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && numberRef.current) {
       controls.start('visible');
       
-      const finalNumber = parseFloat(number.replace(/[^0-9.]/g, ''));
-      const suffix = number.replace(/[0-9.]/g, '');
+      const finalNumber = parseFloat(number.replace(/[^0-9.-]/g, ''));
+      const suffix = number.replace(/[0-9.-]/g, '');
       
-      gsap.to(numberRef.current, {
-        innerHTML: finalNumber,
+      const animation = gsap.to(numberRef.current, {
+        innerHTML: Math.abs(finalNumber),
         duration: 2,
         snap: { innerHTML: 1 },
         scrollTrigger: {
@@ -43,43 +69,24 @@ const StatItem: React.FC<StatItemProps> = ({ icon, number, label, color }) => {
         },
         onUpdate: function() {
           if (numberRef.current) {
-            let currentNumber = Math.round(parseFloat(numberRef.current.innerHTML));
-            if (suffix === 'M') {
-              numberRef.current.innerHTML = (currentNumber / 1000000).toFixed(1) + 'M';
-            } else if (suffix === 'k') {
-              numberRef.current.innerHTML = (currentNumber / 1000).toFixed(1) + 'k';
-            } else {
-              numberRef.current.innerHTML = currentNumber + suffix;
-            }
+            const currentNumber = Math.round(parseFloat(numberRef.current.innerHTML));
+            numberRef.current.innerHTML = formatNumber(currentNumber, suffix);
           }
         }
       });
+
+      return () => {
+        animation.kill();
+      }
     }
   }, [controls, inView, number]);
 
-  const { value } = useSpring({
-    from: { value: 0 },
-    to: { value: parseFloat(number.replace(/[^0-9.]/g, '')) },
-    delay: 200,
-    config: { duration: 1000 },
-  });
-
-  const variants = {
+  const variants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
-  const getBgColor = () => {
-    switch (color) {
-      case 'gray-800': return '#1F2937';
-      case 'blue-500': return '#3B82F6';
-      case 'indigo-600': return '#4F46E5';
-      case 'green-600': return '#059669';
-      default: return '#FFFFFF';
-    }
-  };
-
-  const isLightBg = color === 'white' || color === 'green-400';
+  const isLightBg = color === 'green-600';
 
   return (
     <motion.div
@@ -87,22 +94,63 @@ const StatItem: React.FC<StatItemProps> = ({ icon, number, label, color }) => {
       initial="hidden"
       animate={controls}
       variants={variants}
-      style={{ backgroundColor: getBgColor() }}
+      style={{ backgroundColor: getBgColor(color) }}
       className="p-6 rounded-lg shadow-lg text-center flex flex-col items-center justify-center"
+      role="article"
+      aria-label={`${label} statistic`}
     >
-      <Image src={icon} alt={label} width={40} height={40} className="mb-4" />
+      <Image src={icon} alt="" width={40} height={40} className="mb-4" aria-hidden="true" />
       <motion.div
         ref={numberRef}
         className={`text-3xl font-bold mb-2 ${isLightBg ? 'text-gray-800' : 'text-white'}`}
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
+        aria-live="polite"
       >
         0
       </motion.div>
       <div className={`text-sm ${isLightBg ? 'text-gray-700' : 'text-gray-200'}`}>{label}</div>
     </motion.div>
   );
+};
+
+const Founder: React.FC<FounderProps> = ({ image, name, role }) => {
+  return (
+    <motion.div variants={itemVariants} className="text-center">
+      <Image 
+        src={image} 
+        alt={`${name}, ${role}`} 
+        width={150} 
+        height={150} 
+        className="rounded-full mb-4"
+        onError={(e) => {
+          e.currentTarget.src = '/placeholder.jpg';
+        }}
+      />
+      <h3 className="text-2xl font-semibold text-gray-800">{name}</h3>
+      <p className="text-lg text-gray-600">{role}</p>
+      {/* <p className="mt-2 text-gray-700">{followers} Followers</p> */}
+    </motion.div>
+  );
+};
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
 };
 
 const Glorious: React.FC = () => {
@@ -118,38 +166,32 @@ const Glorious: React.FC = () => {
     }
   }, [controls, inView]);
 
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const stats: StatItemProps[] = [
+    { icon: trophy, number: "10+", label: "Projects Completed", color: "gray-800" },
+    { icon: trophy, number: "100k+", label: "Lines of Code Written", color: "blue-500" },
+    { icon: team, number: "5+", label: "Expert Developers", color: "gray-800" },
+    { icon: earth, number: "2+", label: "Countries Served", color: "indigo-600" },
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 1 },
-    visible: {
-      y: 0,
-      opacity: 1,
-    },
-  };
+  ];
+
+  const founders: FounderProps[] = [
+    { image: ritish, name: "Ritish Bhatoye", role: "Full Stack Developer",  },
+    { image: simran, name: "Simranpreet Singh", role: "Full Stack Developer",  },
+  ];
 
   return (
-    <div className="py-20 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
+    <section className="py-20 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ref}
           initial="hidden"
           animate={controls}
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          <StatItem icon="/trophy.png" number="500+" label="Projects Completed" color="gray-800" />
-          <StatItem icon="/eye.png" number="10M+" label="Lines of Code Written" color="blue-500" />
-          <StatItem icon="/globe.png" number="20+" label="Countries Served" color="indigo-600" />
-          <StatItem icon="/team.png" number="50+" label="Expert Developers" color="green-600" />
+          {stats.map((stat, index) => (
+            <StatItem key={index} {...stat} />
+          ))}
         </motion.div>
 
         <motion.h2
@@ -167,18 +209,9 @@ const Glorious: React.FC = () => {
           animate={controls}
           className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-12"
         >
-          <motion.div variants={itemVariants} className="text-center">
-            <Image src="/founder1.jpg" alt="Founder 1" width={150} height={150} className="rounded-full mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-800">John Doe</h3>
-            <p className="text-lg text-gray-600">Full Stack Developer</p>
-            <p className="mt-2 text-gray-700">100,000+ Followers</p>
-          </motion.div>
-          <motion.div variants={itemVariants} className="text-center">
-            <Image src="/founder2.jpg" alt="Founder 2" width={150} height={150} className="rounded-full mb-4" />
-            <h3 className="text-2xl font-semibold text-gray-800">Jane Smith</h3>
-            <p className="text-lg text-gray-600">UI/UX Designer</p>
-            <p className="mt-2 text-gray-700">50,000+ Followers</p>
-          </motion.div>
+          {founders.map((founder, index) => (
+            <Founder key={index} {...founder} />
+          ))}
         </motion.div>
 
         <motion.div
@@ -189,13 +222,14 @@ const Glorious: React.FC = () => {
         >
           <a
             href="#contact"
-            className="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-300"
+            className="bg-black text-white px-8 py-3 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
+            aria-label="Contact us to grow your digital presence"
           >
             Grow Your Digital Presence
           </a>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
