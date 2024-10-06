@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from 'next/navigation';
 
 const slides = [
   {
@@ -20,6 +21,7 @@ const slides = [
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (slides.length === 0) return;
@@ -29,17 +31,43 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
+  const smoothScroll = useCallback((targetId: string) => {
+    const target = document.getElementById(targetId);
+    if (target) {
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      const duration = 1000; // ms
+      let start: number | null = null;
+
+      const animation = (currentTime: number) => {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+      };
+
+      const ease = (t: number, b: number, c: number, d: number) => {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+      };
+
+      requestAnimationFrame(animation);
+    }
+  }, []);
+
+  const handleBookingClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    smoothScroll('booking');
+    window.history.pushState(null, '', `${pathname}#booking`);
+  }, [pathname, smoothScroll]);
+
   if (slides.length === 0) {
     return null; // or a fallback UI
   }
-
-  const scrollToBooking = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const bookingSection = document.getElementById('booking');
-    if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (  
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white via-indigo-300 via-purple-500 to-pink-500 overflow-hidden relative">
@@ -72,7 +100,7 @@ export default function Hero() {
         >
           <a 
             href="#booking" 
-            onClick={scrollToBooking}
+            onClick={handleBookingClick}
             className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold font-montserrat hover:bg-gray-800 transition-colors inline-block"
           >
             LET'S CREATE SOMETHING AMAZING

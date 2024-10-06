@@ -2,7 +2,8 @@
 
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import React, { FC, memo, useRef } from 'react';
+import React, { FC, memo, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 
 // Define the interface for a process step
 interface ProcessStepData {
@@ -87,10 +88,10 @@ const ProcessStepItem: FC<{ step: ProcessStepData; isEven: boolean }> = memo(({ 
       initial="hidden"
       animate={inView ? 'visible' : 'hidden'}
       transition={{ duration: 0.5 }}
-      className={`flex items-center mb-12 ${isEven ? 'flex-row-reverse' : ''}`}
+      className={`flex flex-col items-center mb-12 md:flex-row md:items-center ${isEven ? 'md:flex-row-reverse' : ''}`}
       aria-labelledby={`step-title-${step.id}`}
     >
-      <div className={`w-1/2 ${isEven ? 'pl-8' : 'pr-8'}`}>
+      <div className={`w-full md:w-1/2 ${isEven ? 'md:pl-8' : 'md:pr-8'}`}>
         <motion.div
           className="bg-white p-6 rounded-lg shadow-md"
           whileHover={{ scale: 1.05 }}
@@ -103,21 +104,21 @@ const ProcessStepItem: FC<{ step: ProcessStepData; isEven: boolean }> = memo(({ 
           <p className="text-gray-700">{step.description}</p>
         </motion.div>
       </div>
-      <motion.div 
-        className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10`}
+      <motion.div
+        className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold z-10 mt-4 md:mt-0`}
         initial={{ backgroundColor: "#D1D5DB" }} // Start with gray
         animate={{ backgroundColor: inView ? "#000000" : "#D1D5DB" }} // Animate to black when in view
         transition={{ duration: 0.5 }}
       >
         {step.number}
       </motion.div>
-      <div className="w-1/2"></div>
+      <div className="w-full mt-4 md:w-1/2"></div>
     </motion.li>
   );
 });
 
 export default function Process() {
-  const processRef = useRef(null);
+  const processRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: processRef,
     offset: ["start end", "end start"]
@@ -128,6 +129,42 @@ export default function Process() {
     damping: 30,
     restDelta: 0.001
   });
+
+  const pathname = usePathname();
+
+  const smoothScroll = useCallback((targetId: string) => {
+    const target = document.getElementById(targetId);
+    if (target) {
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      const duration = 1000; // ms
+      let start: number | null = null;
+
+      const animation = (currentTime: number) => {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const run = ease(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(animation);
+      };
+
+      const ease = (t: number, b: number, c: number, d: number) => {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+      };
+
+      requestAnimationFrame(animation);
+    }
+  }, []);
+
+  const handleButtonClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    smoothScroll('booking');
+    window.history.pushState(null, '', `${pathname}#booking`);
+  }, [pathname, smoothScroll]);
 
   return (
     <section id="process" className="py-20 bg-gray-50" ref={processRef}>
@@ -169,7 +206,8 @@ export default function Process() {
         </div>
         <div className="text-center mt-12">
           <motion.a
-            href="#"
+            href="#booking"
+            onClick={handleButtonClick}
             className="inline-block bg-black text-white px-6 py-3 rounded-full font-semibold text-lg"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
