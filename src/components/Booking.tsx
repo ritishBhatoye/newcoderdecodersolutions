@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Cal, { getCalApi } from "@calcom/embed-react";
 
 // Avatar Component
@@ -14,12 +13,10 @@ const Avatar: React.FC<AvatarProps> = React.memo(({ src, alt, fallback }) => {
   return (
     <div className="relative w-10 h-10 overflow-hidden bg-gray-600 rounded-full">
       {src ? (
-        <Image
-          className="object-cover"
+        <img
+          className="w-full h-full object-cover"
           src={src}
           alt={alt || `Avatar for ${fallback}`}
-          width={40}
-          height={40}
         />
       ) : (
         <span className="absolute inset-0 flex items-center justify-center text-white font-medium">
@@ -67,10 +64,17 @@ export function BrandGrowthBooking() {
   return (
     <div id="booking" className="w-full max-w-4xl mx-auto p-4 sm:p-6 bg-black text-white">
       <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 sm:mb-8 text-center bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent py-2 leading-tight">
-        Let&apos;s Grow Your <span className="text-orange-500">Brand</span> Together
+        Let's Grow Your <span className="text-orange-500">Brand</span> Together
       </h1>
       
-      {/* ... rest of the component ... */}
+      <div className={`w-full rounded-lg overflow-hidden shadow-lg shadow-orange-500/20`} style={{ height: calHeight }}>
+        <Cal
+          namespace="30min"
+          calLink="coder-decoder-solutions-accyhp/30min"
+          style={{width:"100%", height:"100%", overflow:"scroll"}}
+          config={{"layout":"month_view"}}
+        />
+      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ const slides = [
   },
 ];
 
-export function Hero() {
+export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const pathname = usePathname();
 
@@ -70,7 +70,7 @@ export function Hero() {
   }
 
   return (  
-    <section className="relative bg-black text-white py-20">
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white via-indigo-300 via-purple-500 to-pink-500 overflow-hidden relative">
       <div className="text-center max-w-4xl mx-auto px-4 relative">
         <h1 className="sr-only">New Coder Decoder Solutions</h1>
         <AnimatePresence mode="wait">
@@ -107,9 +107,6 @@ export function Hero() {
           </a>
         </motion.div>
       </div>
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
-        Let&apos;s Grow Your Brand Together
-      </h1>
     </section>
   );
 }
