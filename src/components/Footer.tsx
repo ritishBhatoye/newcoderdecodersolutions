@@ -58,7 +58,7 @@ export default function Footer() {
             onClick={scrollToBooking}
             className="bg-black text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors shadow-md cursor-pointer"
           >
-            LET'S DISCUSS
+            LET&apos;S DISCUSS
           </a>
         </div>
 

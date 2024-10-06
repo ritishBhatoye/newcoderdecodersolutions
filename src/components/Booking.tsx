@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Cal, { getCalApi } from "@calcom/embed-react";
 
 // Avatar Component
@@ -13,10 +14,12 @@ const Avatar: React.FC<AvatarProps> = React.memo(({ src, alt, fallback }) => {
   return (
     <div className="relative w-10 h-10 overflow-hidden bg-gray-600 rounded-full">
       {src ? (
-        <img
-          className="w-full h-full object-cover"
+        <Image
+          className="object-cover"
           src={src}
           alt={alt || `Avatar for ${fallback}`}
+          width={40}
+          height={40}
         />
       ) : (
         <span className="absolute inset-0 flex items-center justify-center text-white font-medium">
@@ -49,9 +52,9 @@ export function BrandGrowthBooking() {
         "styles": {
           "branding": {"brandColor": "#f97316"}, // Orange color
           "body": {"background": "#000000"}, // Black background
-          "text": {"color": "#ffffff"}, // White text
-          "eventCard": {"background": "#1f2937", "textColor": "#ffffff"}, // Dark gray cards with white text
-          "button": {"background": "#f97316", "textColor": "#000000"} // Orange buttons with black text
+          // "text": {"color": "#ffffff"}, // White text
+          // "eventCard": {"background": "#1f2937", "textColor": "#ffffff"}, // Dark gray cards with white text
+          // "button": {"background": "#f97316", "textColor": "#000000"} // Orange buttons with black text
         },
         "hideEventTypeDetails": false,
         "layout": "month_view"
