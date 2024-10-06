@@ -66,6 +66,7 @@ export function BrandGrowthBooking() {
       <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 sm:mb-8 text-center bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent py-2 leading-tight">
         Let&apos;s Grow Your <span className="text-orange-500">Brand</span> Together
       </h1>
+
       
       <div className={`w-full rounded-lg overflow-hidden shadow-lg shadow-orange-500/20`} style={{ height: calHeight }}>
         <Cal
