@@ -44,22 +44,18 @@ export function BrandGrowthBooking() {
 
   return (
     <div id="booking" className="max-w-4xl mx-auto p-6 bg-white">
-      <h1 className="text-3xl md:text-5xl font-extrabold mb-8 text-center bg-gradient-to-r from-gray-900 to-orange-600 bg-clip-text text-transparent">
+      <h1 className="text-3xl md:text-5xl font-extrabold mb-8 text-center bg-gradient-to-r from-gray-900 to-orange-600 bg-clip-text text-transparent py-2 leading-tight">
         Let's Grow Your <span className="text-orange-500">Brand</span> Together
       </h1>
-      {/* <div className="bg-gray-900 rounded-lg p-4 md:p-6"> */}
-        {/* User Info Section */}
-        
-        {/* Cal.com Embed */}
-        <div className="h-[600px] w-full"> {/* Changed height from 600px to 500px */}
-          <Cal
-            namespace="30min"
-            calLink="coder-decoder-solutions-accyhp/30min"
-            style={{width:"100%", height:"100%", overflow:"scroll"}}
-            config={{"layout":"month_view"}}
-          />
-        </div>
-      {/* </div> */}
+      
+      <div className="h-[550px] w-full">
+        <Cal
+          namespace="30min"
+          calLink="coder-decoder-solutions-accyhp/30min"
+          style={{width:"100%", height:"100%", overflow:"scroll"}}
+          config={{"layout":"month_view"}}
+        />
+      </div>
     </div>
   );
 }

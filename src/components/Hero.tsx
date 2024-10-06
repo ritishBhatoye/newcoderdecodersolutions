@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
@@ -34,6 +33,14 @@ export default function Hero() {
     return null; // or a fallback UI
   }
 
+  const scrollToBooking = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (  
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white via-indigo-300 via-purple-500 to-pink-500 overflow-hidden relative">
       <div className="text-center max-w-4xl mx-auto px-4 relative">
@@ -63,9 +70,13 @@ export default function Hero() {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="mt-8"
         >
-          <Link href="#contact" className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold font-montserrat hover:bg-gray-800 transition-colors inline-block">
+          <a 
+            href="#booking" 
+            onClick={scrollToBooking}
+            className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold font-montserrat hover:bg-gray-800 transition-colors inline-block"
+          >
             LET'S CREATE SOMETHING AMAZING
-          </Link>
+          </a>
         </motion.div>
       </div>
     </section>

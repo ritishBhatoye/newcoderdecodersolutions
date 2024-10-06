@@ -12,7 +12,7 @@ export default function Header() {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const navItems = ['process', 'testimonials', 'faqs', 'booking'];  // Add 'booking' to navItems
+  const navItems = ['process', 'testimonials', 'faqs', 'booking']; 
 
   const smoothScroll = useCallback((targetId: string) => {
     const target = document.getElementById(targetId);
