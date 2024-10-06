@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useAnimation, Variants } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import trophy from '../../public/award.png';
