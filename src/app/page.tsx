@@ -4,6 +4,7 @@ import Hero from "../components/Hero";
 import Faq from "@/components/Faq";
 import Glorious from "@/components/Glorious";
 import { BrandGrowthBooking } from "@/components/Booking";
+import Testimonials from '@/components/Testimonials';
 
 export const metadata: Metadata = {
   title: 'Coder Decoder Solutions - Top Web & Mobile App Development in Punjab & Haryana',
@@ -52,8 +53,10 @@ export default function Home() {
     <>
       <Hero />
       <Glorious />
+      <Testimonials />
       <Process />
       <BrandGrowthBooking />
+
       <Faq />
     </>
   );
