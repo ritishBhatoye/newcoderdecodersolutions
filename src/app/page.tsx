@@ -52,7 +52,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Glorious />
+      {/* <Glorious /> */}
       <Testimonials />
       <Process />
       <BrandGrowthBooking />
