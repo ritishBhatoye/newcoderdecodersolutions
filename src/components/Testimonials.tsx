@@ -16,7 +16,7 @@ const projectsData: Project[] = [
         title: "Adocities",
         description: "Real estate and property management platform offering property listings, virtual tours, and client management features.",
         imageUrl: "/adocities_1.png",
-        technologies: ["React", "Node.js", "MongoDB"],
+        technologies: ["React", "Node.js", "MySQL", ""],
         link: "https://adocities.com/"
     },
     {

@@ -124,7 +124,7 @@ const Founder: React.FC<FounderProps> = ({ image, name, role }) => {
         width={150} 
         height={150} 
         className="rounded-full mb-4"
-        onError={(e) => {
+        onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
           e.currentTarget.src = '/placeholder.jpg';
         }}
       />

@@ -6,16 +6,28 @@ import { usePathname } from 'next/navigation';
 
 const slides = [
   {
-    title: "EXPERT WEB SOLUTIONS FOR YOUR BUSINESS",
-    subtitle: "Crafting Cutting-Edge Websites to Elevate Your Brand",
+    category: "WEB SOLUTIONS",
+    title: "Transform Your Business with Confidence",
+    subtitle: "Cutting-edge websites that convert visitors into loyal customers.",
+    highlight: "500+ Projects Delivered",
+    cta: "Start Your Project",
+    icon: "🚀"
   },
   {
-    title: "MOBILE APP DEVELOPMENT MASTERY",
-    subtitle: "iOS, Android, and Cross-Platform Solutions That Inspire",
+    category: "MOBILE APPS",
+    title: "Dominate the Market with Intuitive Apps",
+    subtitle: "iOS, Android & cross-platform solutions that users simply adore.",
+    highlight: "4.9/5 Client Rating",
+    cta: "Build Your App",
+    icon: "📱"
   },
   {
-    title: "FREELANCE EXCELLENCE",
-    subtitle: "Bringing Your Digital Vision to Life with Precision",
+    category: "FREELANCE EXCELLENCE",
+    title: "Scale Your Operations with Expert Support",
+    subtitle: "Professional solutions that grow dynamically with your business needs.",
+    highlight: "24/7 Dedicated Support",
+    cta: "Get Started Today",
+    icon: "⚡"
   },
 ];
 
@@ -27,7 +39,7 @@ export default function Hero() {
     if (slides.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -37,7 +49,7 @@ export default function Hero() {
       const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
       const startPosition = window.pageYOffset;
       const distance = targetPosition - startPosition;
-      const duration = 1000; // ms
+      const duration = 1000;
       let start: number | null = null;
 
       const animation = (currentTime: number) => {
@@ -66,46 +78,89 @@ export default function Hero() {
   }, [pathname, smoothScroll]);
 
   if (slides.length === 0) {
-    return null; // or a fallback UI
+    return null;
   }
 
   return (  
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-white via-indigo-300 via-purple-500 to-pink-500 overflow-hidden relative">
-      <div className="text-center max-w-4xl mx-auto px-4 relative">
-        <h1 className="sr-only">New Coder Decoder Solutions</h1>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8"
-            aria-live="polite"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-black font-montserrat tracking-wide">
-              {slides[currentSlide].title}
-            </h2>
-            <p className="text-lg md:text-xl text-black mb-6 font-roboto font-medium">
-              {slides[currentSlide].subtitle}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+    <section className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+      {/* Simplified background - removed distracting elements */}
 
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-8"
-        >
-          <a 
-            href="#booking" 
-            onClick={handleBookingClick}
-            className="bg-black text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold font-montserrat hover:bg-gray-800 transition-colors inline-block"
+      <div className="relative z-10 container mx-auto px-4 py-20">
+        <div className="">
+          
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6 text-center"
           >
-            LET'S CREATE SOMETHING AMAZING
-          </a>
-        </motion.div>
+
+            {/* Category / Sub-heading (formerly part of the title) */}
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={currentSlide}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="text-lg md:text-xl font-semibold uppercase tracking-wider text-blue-600 mb-2"
+              >
+                {slides[currentSlide].category}
+              </motion.p>
+            </AnimatePresence>
+
+            {/* Main Title */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.6 }}
+                className="space-y-4"
+              >
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-gray-900">
+                  {slides[currentSlide].title}
+                </h1>
+                
+                <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                  {slides[currentSlide].subtitle}
+                </p>
+
+                
+              </motion.div>
+            </AnimatePresence>
+
+            {/* CTA Buttons (simplified) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-8 flex justify-center"
+            >
+              <a
+                href="#booking"
+                onClick={handleBookingClick}
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+              >
+                {slides[currentSlide].cta}
+              </a>
+            </motion.div>
+
+            {/* Removed Features Grid to reduce noise */}
+          </motion.div>
+
+          {/* Right Content - Visual Element (simplified) */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative hidden lg:flex items-center justify-center"
+          >
+         
+          </motion.div>
+        </div>
       </div>
     </section>
   );
