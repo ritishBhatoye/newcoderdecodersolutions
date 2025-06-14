@@ -2,7 +2,6 @@ import { Metadata } from 'next'
 import Process from "@/components/Process";
 import Hero from "../components/Hero";
 import Faq from "@/components/Faq";
-import Glorious from "@/components/Glorious";
 import { BrandGrowthBooking } from "@/components/Booking";
 import Testimonials from '@/components/Testimonials';
 
@@ -52,7 +51,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      {/* <Glorious /> */}
+    
       <Testimonials />
       <Process />
       <BrandGrowthBooking />
