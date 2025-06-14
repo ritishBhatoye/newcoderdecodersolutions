@@ -14,9 +14,9 @@ interface Project {
 const projectsData: Project[] = [
     {
         title: "Adocities",
-        description: "Real estate and property management platform offering property listings, virtual tours, and client management features.",
+        description: "Advertisement and booking platform for property management.",
         imageUrl: "/adocities_1.png",
-        technologies: ["React", "Node.js", "MySQL", ""],
+        technologies: ["Next.js", "Tailwind CSS", "MySQL", "Laravel"],
         link: "https://adocities.com/"
     },
     {
@@ -39,6 +39,13 @@ const projectsData: Project[] = [
         imageUrl: "/gkh_1.png",
         technologies: ["Next.js", "Tailwind CSS", "TypeScript"],
         link: "https://barber-chop-shop.vercel.app/"
+    },
+    {
+        title: "Adocities Mobile App",
+        description: "Mobile app for booking and advertisement of properties on LED screens and Hoardings.",
+        imageUrl: "/adocities_2.png",
+        technologies: ["Flutter", "Dart", "MySQL", 'Laravel'],
+        link: "https://adocities.com/"
     }
 ]
 
